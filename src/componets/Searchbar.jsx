@@ -13,7 +13,7 @@ const Searchbar = () => {
   const [models, setModels] = useState([]);
   const [selctedModel, setSelectModel] = useState("");
   const [state, setState] = useState("");
-  const [liscensePlate, setLiscensePlate] = useState("");
+  const [licensePlate, setLicensePlate] = useState("");
 
   /**
    * Every time a car make is selected fetch the models associated to the make
@@ -67,7 +67,7 @@ const Searchbar = () => {
       </select>
       <button>Search</button>
       <p>or</p>
-      <input type="text" placeholder="LISCENSCE PLATE #" onChange={(e) => setLiscensePlate(e.target.value)}/>
+      <input type="text" placeholder="LICENSE PLATE #" onChange={(e) => setLicensePlate(e.target.value)}/>
       <button>Search</button>
     </div>
   );

@@ -1,5 +1,6 @@
 import './Home.css';
 import Searchbar from '../componets/Searchbar';
+import Hero from '../componets/Hero';
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <button>Upload</button>
       <button>Home</button>
       <Searchbar />
+      <Hero />
     </div>
   )
 }
