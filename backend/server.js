@@ -11,8 +11,6 @@ const app = express();
 app.use(express.json());
 app.use(cors());
 
-// console.log(process.env.MONGO_URL);
-
 mongoose.connect(process.env.MONGO_URL)
     .then(() => console.log("Connected to MongoDB"))
     .catch(err => console.error("❌ MongoDB connection error:", err));
@@ -70,6 +68,40 @@ app.get('/api/getStolenCar/:licensePlate', async (req, res) => {
         }
     } catch (error) {
         console.log('Error occurred while trying to get stolen car');
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+app.get('api/getComments/:licensePlate', async (req, res) => {
+    let licensePlate = req.params.licensePlate;
+    try {
+        let comments = await Comment.findOne({licensePlate});
+        if(comments) {
+            res.status(200).json(comments);
+        } else {
+            res.status(404).send("Comments not found");
+        }
+    } catch (error) {
+        console.log('Error occurred while trying to get comments');
+        console.error(error);
+        res.status(500).send("Internal Server Error");
+    }
+});
+
+app.post('/api/addComment', async (req, res) => {
+    let {licensePlate, username, message} = req.body;
+    try {
+        let existingCar = await Comment.findOne({licensePlate});
+        if(existingCar) {
+            existingCar.comments.push({username, message, date: new Date()});
+            await existingCar.save();
+            res.status(201).json({message: "Comment added"});
+        } else {
+            res.status(404).send("Car not found");
+        }
+    } catch (error) {
+        console.log('Error occurred while trying to add comment');
         console.error(error);
         res.status(500).send("Internal Server Error");
     }
