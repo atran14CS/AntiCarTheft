@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import StolenCar from './models/stolenCar.js';
+import Comment from './models/comment.js';
 dotenv.config();
 
 const app = express();
@@ -12,7 +13,7 @@ app.use(express.json());
 app.use(cors());
 
 mongoose.connect(process.env.MONGO_URL)
-    .then(() => console.log("Connected to MongoDB"))
+    .then(() => console.log("✅ Connected to MongoDB"))
     .catch(err => console.error("❌ MongoDB connection error:", err));
 
 app.post('/api/addStolenCar', async (req, res) => {
@@ -73,10 +74,11 @@ app.get('/api/getStolenCar/:licensePlate', async (req, res) => {
     }
 })
 
-app.get('api/getComments/:licensePlate', async (req, res) => {
+app.get('/api/getComments/:licensePlate', async (req, res) => {
     let licensePlate = req.params.licensePlate;
     try {
-        let comments = await Comment.findOne({licensePlate});
+        let comments = await Comment.find({licensePlate});
+        console.log(comments);
         if(comments) {
             res.status(200).json(comments);
         } else {
@@ -90,22 +92,26 @@ app.get('api/getComments/:licensePlate', async (req, res) => {
 });
 
 app.post('/api/addComment', async (req, res) => {
-    let {licensePlate, username, message} = req.body;
+    let { licensePlate, username, message } = req.body;
     try {
-        let existingCar = await Comment.findOne({licensePlate});
-        if(existingCar) {
-            existingCar.comments.push({username, message, date: new Date()});
-            await existingCar.save();
-            res.status(201).json({message: "Comment added"});
+        let existingCar = await Comment.findOne({ licensePlate });
+        if (!existingCar) {
+            existingCar = new Comment({
+                licensePlate,
+                comments: [{ username, message, date: new Date() }]
+            });
         } else {
-            res.status(404).send("Car not found");
+            existingCar.comments.push({ username, message, date: new Date() });
         }
+        await existingCar.save();
+        console.log("Updated Comments Array:", existingCar.comments);
+        res.status(201).json({ message: "Comment added", comments: existingCar.comments });
     } catch (error) {
-        console.log('Error occurred while trying to add comment');
-        console.error(error);
+        console.error('Error occurred while trying to add comment', error);
         res.status(500).send("Internal Server Error");
     }
-})
+});
+
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
