@@ -77,9 +77,9 @@ app.get('/api/getStolenCar/:licensePlate', async (req, res) => {
 app.get('/api/getComments/:licensePlate', async (req, res) => {
     let licensePlate = req.params.licensePlate;
     try {
-        let comments = await Comment.find({licensePlate});
-        console.log(comments);
+        let comments = await Comment.findOne({licensePlate});
         if(comments) {
+            console.log("comments for car exisist");
             res.status(200).json(comments);
         } else {
             res.status(404).send("Comments not found");
