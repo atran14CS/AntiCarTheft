@@ -1,10 +1,11 @@
 import heropic from '../photos/heropic.jpeg';
+import './Hero.css';
 
 
 const Hero = () => {
   return (
-    <div>
-      <img src={heropic} alt="car theft image" />
+    <div className='hero-container'>
+      <img src={heropic} alt="car theft image" id='hero-pic'/>
     </div>
   )
 }

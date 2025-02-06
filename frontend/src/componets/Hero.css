@@ -1,0 +1,12 @@
+.hero-container {
+    display: flex;
+    justify-content: center; /* Centers image horizontally */
+    align-items: center; /* Centers image vertically */
+    height: 100vh; /* Adjust if needed */
+}
+
+#hero-pic {
+    height: 55vh;
+    width: 80vh;
+    margin-bottom: 25vh;
+}
