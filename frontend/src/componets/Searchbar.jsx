@@ -11,7 +11,7 @@ import { STATES } from "../../../backend/models/states";
 const Searchbar = () => {
   const [carMake, setCarMake] = useState("");
   const [models, setModels] = useState([]);
-  const [selctedModel, setSelectModel] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
   const [state, setState] = useState("");
   const [licensePlate, setLicensePlate] = useState("");
 

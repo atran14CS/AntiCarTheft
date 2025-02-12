@@ -7,11 +7,11 @@ const NewInfo = () => {
 
   useEffect(() => {
     axios.get('http://localhost:3001/api/getStolenCars')
-    .then((response) => {
-      setStolenCars(response.data);
-    })
-  })
-
+      .then((response) => {
+        setStolenCars(response.data);
+      })
+      .catch((error) => console.error("Error fetching stolen cars:", error)); 
+  }, []);
   return (
     <div>
       <h1>Stolen Cars</h1>
@@ -22,16 +22,14 @@ const NewInfo = () => {
           <td>License Plate</td>
           <td>State</td>
         </tr>
-        {stolenCars.map((car) => {
-          return (
-            <tr key={car.licensePlate}>
-              <td>car.make</td>
-              <td>car.model</td>
-              <td>car.licensePlate</td>
-              <td>car.state</td>
-            </tr>
-          )
-        })}
+        {stolenCars.map((car) => (
+          <tr key={car.licensePlate}>
+            <td>{car.make}</td>
+            <td>{car.model}</td>
+            <td>{car.licensePlate}</td>
+            <td>{car.state}</td>
+          </tr>
+        ))}
       </table>
     </div>
   )
