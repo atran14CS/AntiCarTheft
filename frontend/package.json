@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "vite"
+    "start": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +15,9 @@
     "axios": "^1.7.9",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "vite": "^6.0.11"
+    "react-router-dom": "^6.0.0"
+  },
+  "devDependencies": {
+    "vite": "^4.0.0"
   }
 }
